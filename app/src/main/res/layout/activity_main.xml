@@ -21,8 +21,8 @@
         android:layout_height="wrap_content"
         android:text="Event"
         android:id="@+id/eventButton"
-        android:layout_below="@+id/imageView"
-        android:layout_marginTop="42dp"
+
+        android:layout_above="@+id/MottoSettingButton"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
@@ -31,22 +31,11 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Motto"
+        android:text="Set Motto"
         android:id="@+id/MottoSettingButton"
-        android:layout_below="@+id/eventButton"
-        android:layout_alignRight="@+id/eventButton"
-        android:layout_alignEnd="@+id/eventButton"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Exit"
-        android:id="@+id/ExitButton"
-        android:layout_below="@+id/MottoSettingButton"
-        android:layout_alignRight="@+id/MottoSettingButton"
-        android:layout_alignEnd="@+id/MottoSettingButton"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 

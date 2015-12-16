@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">SelfControl</string>
     <string name="levelTitle">Lv.1</string>
+    <string name="challenge">Chllange</string>
+    <string name="Break">Break</string>
+    <string name="Success">Complete Done!</string>
+    <string name="Fail">Fail T_T</string>
+    <string name="longBreak">Em...I can control myself again!</string>
+    <string name="shortBreak">Well, I can hold on a little more!</string>
+    <string name="badBreak">Oh god! kill me!</string>
 </resources>
