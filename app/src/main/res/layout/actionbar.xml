@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="9dp"
+        android:id="@+id/levelTitle"
         android:text="@string/levelTitle"
         android:textColor="#ffffff"
         android:textSize="24sp" />

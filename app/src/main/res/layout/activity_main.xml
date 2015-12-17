@@ -19,8 +19,8 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Event"
-        android:id="@+id/eventButton"
+        android:text="@string/Break"
+        android:id="@+id/breakButton"
 
         android:layout_above="@+id/MottoSettingButton"
         android:layout_alignParentRight="true"
@@ -36,6 +36,17 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/challenge"
+        android:id="@+id/challengeButton"
+        android:layout_above="@+id/breakButton"
+        android:layout_alignRight="@+id/breakButton"
+        android:layout_alignEnd="@+id/breakButton"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
