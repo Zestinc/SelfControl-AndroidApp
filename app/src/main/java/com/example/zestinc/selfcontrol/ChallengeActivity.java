@@ -51,7 +51,7 @@ public class ChallengeActivity extends AppCompatActivity {
                             ！！！
                             ！！
                             ！
-                            此处应有升级恭喜提示
+                            此处应有升级恭喜提示！！
                              */
                             currentExp -= (100 + level*20);
                             level += 1;
