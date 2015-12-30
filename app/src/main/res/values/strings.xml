@@ -8,4 +8,9 @@
     <string name="longBreak">Em...I can control myself again!</string>
     <string name="shortBreak">Well, I can hold on a little more!</string>
     <string name="badBreak">Oh god! kill me!(Having a bad break)</string>
+    <string name="upgrade">升级啦啦啦啦啦啦啦</string>
+    <string name="ok">我还没完成任务！冥想一会，接着再战！</string>
+    <string name="notOk">完成任务啦~哗啦啦恰巴巴~</string>
+    <string name="challengeSuccess">干得不错！好好休息，接着再战</string>
+    <string name="challengeFail">不用灰心，总结经验，下次会更好</string>
 </resources>
