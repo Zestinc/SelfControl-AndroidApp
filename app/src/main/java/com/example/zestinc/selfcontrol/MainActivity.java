@@ -13,8 +13,12 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.sql.Time;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
+    public DateFormat currentDate = new SimpleDateFormat("HH");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,20 +33,90 @@ public class MainActivity extends AppCompatActivity {
             level = 0;
             editor.putInt("level", level);
             editor.putLong("currentExp", 0);
+            editor.putInt("hp", 20);
+            editor.commit();
+            Log.d("初始化成功", "-0-");
+            Log.d("Level", Integer.toString(level));
+        }
+
+        //每天早上更新hp
+        DateFormat dateFormat = new SimpleDateFormat("HH");
+        Date date = new Date();
+        dateFormat.format(date);
+        Log.d("HH", dateFormat.toString());
+        if(currentDate != dateFormat) {
+            String hour = dateFormat.toString();
+            Log.d("getTimeInstace内容", dateFormat.toString());
+            Log.d("当前日期处理后的hour", hour);
+            if(Integer.parseInt(hour) > 6){
+                level = sharedPreferences.getInt("level", -1);
+                int hp = 20 + level * 2;
+                editor.putInt("hp", hp);
+                editor.commit();
+                Log.d("早上hp恢复完成, 当前hp为", Integer.toString(hp));
+            }
         }
 
         Button button = (Button) findViewById(R.id.challengeButton);
         button.setOnClickListener(new View.OnClickListener() {
+            //开始挑战的flag
+            public boolean flag;
+            //惩罚系数
+            public int coefficient;
+
             @Override
             public void onClick(View v) {
                 //Record begin time.
                 SharedPreferences sharedPreferences = getSharedPreferences("person", 0);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                //初始化数值
+                flag = true;
+                coefficient = 1;
+
+                //hp太低的建议
+                int hp = sharedPreferences.getInt("hp", -1);
+                if(hp > 0 && hp <= 5){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                    builder.setMessage("当前hp不多，建议以清理\"小怪\"为主，切莫挑战需要半小时以上的大Boss");
+                    builder.setPositiveButton("=。= 知道啦", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            flag = true;
+                        }
+                    });
+                    builder.setNegativeButton("好吧，我歇息一下0.0", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            flag = false;
+                        }
+                    });
+                    builder.create().show();
+                }
+                else if(hp < 0) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+                    builder.setMessage("hp需要恢复，不建议继续进行挑战~=w=~");
+                    builder.setNegativeButton("好吧，我歇息一下0.0", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            flag = false;
+                        }
+                    });
+                    builder.setPositiveButton("-.- 不管，继续挑战（失败的话惩罚加倍(⊙o⊙)哦）", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            flag = true;
+                            coefficient = 2;
+                        }
+                    });
+                }
+
                 editor.putLong("time", System.currentTimeMillis());
                 editor.commit();
 
                 //Go into challenge activity
                 Intent intent = new Intent(MainActivity.this, ChallengeActivity.class);
+                intent.putExtra("coefficient", coefficient);
                 startActivity(intent);
             }
         });

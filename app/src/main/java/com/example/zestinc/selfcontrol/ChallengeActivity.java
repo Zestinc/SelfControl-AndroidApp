@@ -4,9 +4,11 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,10 +16,17 @@ import android.widget.DialerFilter;
 import android.widget.Toast;
 
 public class ChallengeActivity extends AppCompatActivity {
+    public int coefficient;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_challenge);
+
+        //获取传递过来的惩罚系数
+        Intent intent = getIntent();
+        coefficient = intent.getIntExtra("coefficient", -1);
+        Log.d("coefficient", Integer.toString(coefficient));
+
 
         Button button = (Button) findViewById(R.id.successButton);
         button.setOnClickListener(new View.OnClickListener() {
@@ -44,28 +53,22 @@ public class ChallengeActivity extends AppCompatActivity {
                          */
                         Long currentExp = sharedPreferences.getLong("currentExp", 0);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
+                        int hp = sharedPreferences.getInt("hp", -1);
 
                         //正常经验值添加，每分钟1经验
 //                        currentExp += duration/1000/60;
                         //临时经验值添加，每秒10经验
                         currentExp += duration/100;
+
+                        //hp处理: 每6分钟减1 （一个小时间10）
+                        hp -= duration/1000/10;
+                        editor.putInt("hp", hp);
+                        Log.i("挑战成功hp变化", Integer.toString(hp));
+
                         int level = sharedPreferences.getInt("level", 0);
                         while(currentExp >= (100 + level * 20)){
-                            /*
-                            ！！！！！！！！！
-                            ！！！！！！！！
-                            ！！！！！！
-                            ！！！！！
-                             */
+                            //升级提示
                             Toast.makeText(ChallengeActivity.this, R.string.upgrade, Toast.LENGTH_LONG).show();
-                            /*
-                            ！！！！
-                            ！！！
-                            ！！
-                            ！
-                            此处应有升级恭喜提示！！
-                             */
-
                             currentExp -= (100 + level*20);
                             level += 1;
                             Log.d("level up", Integer.toString(level));
@@ -118,7 +121,8 @@ public class ChallengeActivity extends AppCompatActivity {
                     Log.e("error", "getCurrentExp error");
                 }
                 int level = sharedPreferences.getInt("level", -1);
-                currentExp -= 10 + level*10;
+                //扣除基本经验10，等级附加惩罚，以及无hp下挑战惩罚
+                currentExp -= (10 + level*10) * coefficient;
                 editor.putLong("currentExp", currentExp);
                 Log.d("currentExp --", currentExp.toString());
                 while(currentExp <= 0){
@@ -127,8 +131,17 @@ public class ChallengeActivity extends AppCompatActivity {
                     editor.putInt("level", level);
                     editor.putLong("currentExp", currentExp);
                     Log.d("level --", Integer.toString(level));
-                    Toast.makeText(getApplicationContext(), "喵~~~~~~降级了~喵", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "喵~~~~~~降级了~喵~~~！！~！~！T_T", Toast.LENGTH_LONG).show();
                 }
+
+                //hp处理: 每6分钟减1 （一个小时间10）+ 10失败损伤
+                int hp = sharedPreferences.getInt("hp", -1);
+                Long beginTime = sharedPreferences.getLong("time", -1);
+                Long duration = System.currentTimeMillis() - beginTime;
+                hp -= 10 + duration/1000/10;
+                Log.i("挑战失败hp变化", Integer.toString(hp));
+
+                editor.putInt("hp", hp);
                 editor.commit();
                 /*
                 弹窗提示信息，休息，温馨提示
