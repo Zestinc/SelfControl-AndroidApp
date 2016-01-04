@@ -28,34 +28,49 @@ public class MainActivity extends AppCompatActivity {
         //初始化所有用户的数值
         SharedPreferences sharedPreferences = getSharedPreferences("person", 0);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        int level = sharedPreferences.getInt("level", -1);
+        final int level = sharedPreferences.getInt("level", -1);
         if(level == -1){
-            level = 0;
-            editor.putInt("level", level);
-            editor.putLong("currentExp", 0);
-            editor.putInt("hp", 20);
+            editor.putInt("level", 0);
             editor.commit();
-            Log.d("初始化成功", "-0-");
-            Log.d("Level", Integer.toString(level));
+//            Log.d("初始化成功", "-0-");
+            Log.d("level 初始化完成", Integer.toString(level));
+        }
+        Long currentExp = sharedPreferences.getLong("currentExp", -1);
+        if(currentExp == -1){
+            editor.putLong("currentExp", 0);
+            editor.commit();
+            Log.d("currentExp 初始化完成", "0");
+        }
+        final int hpMax = sharedPreferences.getInt("hpMax", -1);
+        if(hpMax == -1){
+            editor.putInt("hpMax", 20 + 2*level);
+            editor.commit();
+            Log.d("hpMax 初始化完成", Integer.toString(hpMax));
+        }
+        final int hp = sharedPreferences.getInt("hp", -1);
+        if(hp == -1){
+            editor.putInt("hp", hpMax);
+            editor.commit();
+            Log.d("hp 初始化完成", Integer.toString(hpMax));
         }
 
         //每天早上更新hp
-        DateFormat dateFormat = new SimpleDateFormat("HH");
-        Date date = new Date();
-        dateFormat.format(date);
-        Log.d("HH", dateFormat.toString());
-        if(currentDate != dateFormat) {
-            String hour = dateFormat.toString();
-            Log.d("getTimeInstace内容", dateFormat.toString());
-            Log.d("当前日期处理后的hour", hour);
-            if(Integer.parseInt(hour) > 6){
-                level = sharedPreferences.getInt("level", -1);
-                int hp = 20 + level * 2;
-                editor.putInt("hp", hp);
-                editor.commit();
-                Log.d("早上hp恢复完成, 当前hp为", Integer.toString(hp));
-            }
-        }
+//        DateFormat dateFormat = new SimpleDateFormat("HH");
+//        Date date = new Date();
+//        dateFormat.format(date);
+//        Log.d("HH", dateFormat.toString());
+//        if(currentDate != dateFormat) {
+//            String hour = dateFormat.toString();
+//            Log.d("getTimeInstace内容", dateFormat.toString());
+//            Log.d("当前日期处理后的hour", hour);
+//            if(Integer.parseInt(hour) > 6){
+//                level = sharedPreferences.getInt("level", -1);
+//                int hp = 20 + level * 2;
+//                editor.putInt("hp", hp);
+//                editor.commit();
+//                Log.d("早上hp恢复完成, 当前hp为", Integer.toString(hp));
+//            }
+//        }
 
         Button button = (Button) findViewById(R.id.challengeButton);
         button.setOnClickListener(new View.OnClickListener() {

@@ -55,13 +55,25 @@ public class ChallengeActivity extends AppCompatActivity {
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         int hp = sharedPreferences.getInt("hp", -1);
 
-                        //正常经验值添加，每分钟1经验
-//                        currentExp += duration/1000/60;
+                        //将duration转化为分钟
+                        duration = duration/1000/60;
+                        //超过1小时的挑战
+                        if(duration >= 60){
+                            currentExp += 20;
+                        }
+                        //5分钟以上，1小时以下的挑战
+                        else if(duration < 60 && duration > 5){
+                            currentExp += 10;
+                        }
+                        //5分钟的挑战
+                        else {
+                            currentExp += 3;
+                        }
                         //临时经验值添加，每秒10经验
-                        currentExp += duration/100;
+//                        currentExp += duration/100;
 
                         //hp处理: 每6分钟减1 （一个小时间10）
-                        hp -= duration/1000/10;
+                        hp -= duration;
                         editor.putInt("hp", hp);
                         Log.i("挑战成功hp变化", Integer.toString(hp));
 
