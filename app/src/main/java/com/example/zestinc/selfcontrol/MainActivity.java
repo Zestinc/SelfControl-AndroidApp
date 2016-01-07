@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        }
 
+        //Implement of challenge Button event.
         Button button = (Button) findViewById(R.id.challengeButton);
         button.setOnClickListener(new View.OnClickListener() {
             //开始挑战的flag
@@ -136,6 +137,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //Implement of break button
         button = (Button) findViewById(R.id.breakButton);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,11 +147,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //Implement of Motto Setting Button
         button = (Button) findViewById(R.id.MottoSettingButton);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                
             }
         });
 
